@@ -1,0 +1,209 @@
+<html>
+<head>
+
+<style>
+.inforUser {
+    color: blue !important;
+    font-weight:bold !important;
+    background-color: #d1c8ba;
+    
+}
+.label {
+    font-size:120%;
+    font-weight:bold;
+}
+.buttonSave {
+    border-radius: 10px;
+    font-weight:bold;
+    display:none;
+    background-color: green;
+    width:10%;
+    margin-top: 2%;
+}
+.buttonEdit {
+    border-radius: 10px;
+    font-weight:bold;
+    float:left;
+    margin-left: 45%;
+    margin-right: 3%;
+    margin-top: 2%;
+}
+.btLogout {
+    float:right;
+    border-radius: 10px;
+    font-weight:bold;
+    background-color: pink;
+    width:12%;
+}
+.buttonEdits {
+    border-radius: 10px;
+    font-weight:bold;
+    background-color: grey;
+    display:none;
+}
+.buttonDelete {
+    border-radius: 10px;
+    font-weight:bold;
+    background-color: red;
+    display:none;
+}
+
+</style>
+</head>
+<br>
+
+<button name = "buttonLogout" id  = "buttonLogout" onclick = logOut(); class = "btLogout">Log Out</button>
+<div style = "text-align:center;font-weight:bold;color: green;font-size:200%;">ĐĂNG NHẬP THÀNH CÔNG !</div>
+<br>
+<div style = "text-align:center;font-weight:bold;color: #34deeb;font-size:200%;">CHÀO MỪNG BẠN ĐẾN VỚI HỆ THỐNG ĐĂNG KÝ HỌC TRỰC TUYẾN</div>
+<br>
+<br>
+<br>
+<?php  if( $studentAccount->GROUP_ID == 1) { ?>
+    <div style = "text-align:left;font-weight:bold;color: blue;font-size:150%;"> Thông Tin Của Bạn :</div>
+<?php  } else if ($studentAccount->GROUP_ID == 9) { ?>
+    <div style = "text-align:left;font-weight:bold;color: blue;font-size:150%;"> Danh Sách Người Dùng :</div>
+<?php } ?>
+<form action="<?= $this->url->get('Account/getInfo') ?>" method = "post">
+    <table >
+        <label >
+            <td ></td>
+            <td></td>
+            <td class = "label" style = "width: 50px !important;">ID</td>
+            <td  class = "label" style = "width: 50px !important;">Họ và Tên : </td>
+            <td class = "label" style = "width: 50px !important;">Ngày Sinh : </td>
+            <td class = "label" style = "width: 50px !important;">Địa Chỉ :  </td>
+            <td class = "label" style = "width: 50px !important;">Số Điện Thoại : </td>
+            <td class = "label" style = "width: 50px !important;">Trường Học :</td>
+            <td class = "label" style = "width: 50px !important;">Sở Thích :</td>
+            <td class = "label" style = "width: 50px !important;">Email :</td>
+        </label >
+        
+        <?php if($studentAccount->GROUP_ID == 1) { ?>
+            <tr  >
+                <td ><button type="button" value = "Sửa" name = "edit[]" id = "<?= $studentAccount->ID ?>"  class = "buttonEdits" onclick = "editUser(this.id);">Sửa</button></td>
+                <!-- <td ><button type="button" value = "Xóa" name = "delete[]" id = "<?= $studentAccount->ID ?>"  class = "buttonDelete" onclick = "deleteUser(this.id);">Xóa</button></td> -->
+                <td ><input  type="text" value = "<?= $studentAccount->ID ?>" name = "id" id = "<?= 'id'.$studentAccount->ID ?>" readOnly style = "color: blue !important;font-weight:bold !important;background-color: #d1c8ba;width: 50px !important;"></input></td>
+                <td ><input  style = "width: 170px !important;" type="text" value = "<?= $studentAccount->NAME ?>" name = "name" id = "<?= 'name'.$studentAccount->ID ?>" readOnly class = "inforUser"></input></td>
+                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->BIRTHDAY ?>" name = "birthday" id = "<?= 'birthday'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->ADDRESS ?>" name = "address" id = "<?= 'address'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->PHONE ?>" name = "phone" id = "<?= 'phone'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->SCHOOL ?>" name = "school" id = "<?= 'school'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->HOBBY ?>" name = "hobby" id = "<?= 'hobby'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input style = "width: 200px !important;" type="text" value = "<?= $studentAccount->GMAIL?> " name = "gmail" id = "<?= 'gmail'.$studentAccount->ID ?>" readOnly class = "inforUser"> </input></td>
+            </tr>
+        <?php } else if ($studentAccount->GROUP_ID == 9) { ?>
+            <?php foreach ($listStudent as $l) { ?>
+                <tr  >
+                    <td ><button type="button" value = "Sửa" name = "edit[]" id = "<?= $l->ID ?>"  class = "buttonEdits" onclick = "editUser(this.id);">Sửa</button></td>
+                    <td ><button type="button" value = "Xóa" name = "delete[]" id = "<?= $l->ID ?>"  class = "buttonDelete" onclick = "deleteUser(this.id);">Xóa</button></td>
+                    <td ><input type="text" value = "<?= $l->ID ?>" name = "id[]" id = "<?= 'id'.$l->ID ?>" readOnly style = "color: blue !important;font-weight:bold !important;background-color: #d1c8ba;width: 50px !important;"></input></td>
+                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->NAME ?>" name = "name[]" id = "<?= 'name'.$l->ID ?>" readOnly class = "inforUser"></input></td>
+                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->BIRTHDAY ?>" name = "birthday[]" id = "<?= 'birthday'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->ADDRESS ?>" name = "address[]" id = "<?= 'address'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->PHONE ?>" name = "phone[]" id = "<?= 'phone'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->SCHOOL ?>" name = "school[]" id = "<?= 'school'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->HOBBY ?>" name = "hobby[]" id = "<?= 'hobby'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input style = "width: 200px !important;" type="text" value = "<?= $l->GMAIL?> " name = "gmail[]" id = "<?= 'gmail'.$l->ID ?>" readOnly class = "inforUser"> </input></td>
+                </tr>
+            <?php } ?>
+        <?php } ?>
+       
+        
+
+    </table>
+    <button class = "buttonEdit" onclick = "changeInfo();" type = "button"> Chỉnh Sửa Hồ Sơ </button>
+    <button  class = "buttonSave" type = "button" id = "changeInfor"  > Lưu </button>
+</form>
+
+
+<script>
+function changeInfo (id) {
+    $("#changeInfor").css('display','block');
+    $(".buttonEdits").css('display','block');
+    $(".buttonDelete").css('display','block');
+    
+}
+
+
+function logOut () {
+    $.ajax({
+        url: "/devtest/Account/logOut",
+        success: function(r){
+            if(r['result'] == "OK") {
+                window.location.replace('/devtest/Account/');
+            }else {
+                console.log('logout error');
+            }
+    }});
+}
+
+function editUser (id) {
+    $("#name"+id).css('background-color','white');
+    $("#birthday"+id).css('background-color','white');
+    $("#address"+id).css('background-color','white');
+    $("#phone"+id).css('background-color','white');
+    $("#school"+id).css('background-color','white');
+    $("#hobby"+id).css('background-color','white');
+    $("#gmail"+id).css('background-color','white');
+    $("#name"+id). removeAttr('readOnly');
+    $("#birthday"+id). removeAttr('readOnly');
+    $("#address"+id). removeAttr('readOnly');
+    $("#phone"+id). removeAttr('readOnly');
+    $("#school"+id). removeAttr('readOnly');
+    $("#hobby"+id). removeAttr('readOnly');
+    $("#gmail"+id). removeAttr('readOnly');
+    $(".buttonEdits").prop('disabled','disabled')
+    $("#changeInfor").click(
+        function() {
+            var infor = new Object();
+            infor.id = $("#id"+id).val();
+            infor.name = $("#name"+id).val();
+            infor.birthday = $("#birthday"+id).val();
+            infor.address = $("#address"+id).val();
+            infor.phone = $("#phone"+id).val();
+            infor.school = $("#school"+id).val();
+            infor.hobby = $("#hobby"+id).val();
+            infor.gmail = $("#gmail"+id).val();
+
+            $.ajax({
+                url: '/devtest/Account/getInfo?validate=true',
+                type: 'POST',
+                data: infor,
+                success: function(){
+                    $(".inforUser").attr('readOnly','readOnly');
+                    $(".inforUser").css('background-color','#d1c8ba');
+                    $(".buttonEdits").removeAttr('disabled');
+                }
+            });
+        }
+    );
+
+}
+
+
+function save () {
+
+    
+}
+
+function deleteUser (id) {
+    confirm("Bạn Có Thật Sự Muốn Xóa Tài Khoản Không ?");
+    $.ajax({
+        url: "/devtest/Account/delete",
+        data:{"id" : id},
+        type : "post",
+        success: function(r){
+            console.log(r);
+            if(r['result'] == "OK") {
+                alert('Xóa Tài Khoản Thành Công');
+                window.location.replace('/devtest/Account/getInfo');
+            }else {
+                alert('Xóa Tài Khoản Thất Bại');
+            }
+    }});
+}
+
+
+</script>
+</html>
