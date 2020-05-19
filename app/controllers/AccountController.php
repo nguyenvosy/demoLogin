@@ -273,4 +273,42 @@ class AccountController extends ControllerBase
     public function unauthorizedAction () {
 
     }
+
+    public function apiTestingAction () {
+        
+        header("Content-type: application/json; charset=utf-8");
+        $data = $this->request->getQuery();
+        $time = $data['time'];
+        $key = $data['key'];
+        $id =  $data['id'];
+        $currentTime = time();
+        $currentKey = md5('testApi'.$time);
+        if($currentTime - $time <= 3000 && $key == $currentKey) {
+            $studentAccount = Account::findFirst([
+                'ID =:id:' ,
+                'bind'=>[
+                    'id' => $data['id'],
+                ]
+            ]);
+            $this->view->setVar('studentAccount',$studentAccount);
+            if($studentAccount) {
+                echo json_encode($studentAccount);
+            } else {
+                echo json_encode('Không có dữ liệu nào tồn tại');
+            }
+        }
+    }
 }
+
+//file index.php để test Api
+
+// <?php 
+
+
+// $time = time();
+// $key = md5('testApi'.$time);
+// $data = '?time='.$time.'&key='.$key.'&id=14';
+// $ch = curl_init();
+// curl_setopt($ch, CURLOPT_URL, "http://localhost/devtest/Account/apiTesting".$data);
+// curl_exec($ch);
+// curl_close($ch);
