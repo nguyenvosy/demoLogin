@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+  </head>
+  <body>
+
+    <table class = "table">
+            <tr class="success">
+                <td>STT</td>
+                <td>ID</td>
+                <td>NAME</td>
+                <td>USERNAME</td>
+                <td>PASSWORD</td>
+                <td>GROUP_ID</td>
+                <td>BIRTHDAY</td>
+                <td>ADDRESS</td>
+                <td>PHONE</td>
+                <td>HOBBY</td>
+                <td>SCHOOL</td>
+                <td>GMAIL</td>
+            </tr>
+        <?php  foreach($data as $k => $d) { ?>
+            <tr class="active">
+                <td><?= $k +1 + $itemsPerPage*($currentPage - 1)?></td>
+                <td><?= $d['ID'] ?></td>
+                <td><?= $d['NAME'] ?></td>
+                <td><?= $d['USERNAME'] ?></td>
+                <td><?= $d['PASSWORD'] ?></td>
+                <td><?= $d['GROUP_ID'] ?></td>
+                <td><?= $d['BIRTHDAY'] ?></td>
+                <td><?= $d['ADDRESS'] ?></td>
+                <td><?= $d['PHONE'] ?></td>
+                <td><?= $d['HOBBY'] ?></td>
+                <td><?= $d['SCHOOL'] ?></td>
+                <td><?= $d['GMAIL'] ?></td>
+            </tr>
+        <?php } ?>
+    </table>
+    <div class = "row">
+      <?=  $paginator;  ?>
+    </div>
+    
+  </body>
+</html>

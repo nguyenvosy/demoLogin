@@ -1,11 +1,19 @@
 <?php
 use Phalcon\Session\Factory;
-use Phalcon\Flash\Direct as FlashDirect;
-use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Filter;
+use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Model\Query;
+use Phalcon\Mvc\View;
+use JasonGrimes\Paginator;
+
+
 class AccountController extends ControllerBase
 {
 
+    public function initialize(){
+        parent::initialize();
+        
+	}
     public function indexAction()
     {
         if ($this->request->isPost()) {
@@ -35,6 +43,7 @@ class AccountController extends ControllerBase
                             "result" => "ok",
                         ]
                     );
+                    // $this->response->redirect('Account/getInfo');
                 } else {
                     return  $this->response->setJsonContent(
                         [
@@ -51,20 +60,27 @@ class AccountController extends ControllerBase
         }
     }
 
-    public function getInfoAction () {
-            if ($this->session->has('user')) {
-                $user = $this->session->get('user');
-                $id = $user['ID'];
-            }
-            $studentAccount = Account::findFirst([
-                'ID =:id:' ,
-                'bind'=>[
-                    'id' => $id
-                ]
-            ]);
-            $listStudent = Account::find();
-            $this->view->setVar('studentAccount',$studentAccount);
-            $this->view->setVar('listStudent',$listStudent);
+    public function getInfoAction ($page = 1) {
+        if ($this->session->has('user')) {
+            $user = $this->session->get('user');
+            $id = $user['ID'];
+        } else {
+            $this->response->redirect('Account');
+        }
+        $studentAccount = Account::findFirst([
+            'ID =:id:' ,
+            'bind'=>[
+                'id' => $id
+            ]
+        ]);
+        $limit = 5;
+        $sql = 'SELECT * FROM Account LIMIT '.($page-1)*$limit.','.$limit;
+        $listStudent = $this->modelsManager->executeQuery($sql);
+        $count = Account::count();
+        $url = "/devtest/Account/getInfo/(:num)";
+        $paginator = new Paginator($count, $limit, $page, $url);
+
+            $this->view->setVars(['paginator' => $paginator,'listStudent' => $listStudent,'studentAccount' => $studentAccount,'limit' => $limit,'page' => $page ]);
         if ($this->request->isPost()) {
             if($studentAccount->GROUP_ID == 1) {
                 $data = $this->request->getPost();
@@ -78,7 +94,6 @@ class AccountController extends ControllerBase
                 $gmailNew = $this->changeData($studentAccount->GMAIL,$data['gmail']);
                 
 
-                if(Account::find(['']))
                 if($nameNew)  $studentAccount->NAME =  $nameNew ;
                 if($birthdayNew)  $studentAccount->BIRTHDAY =  $birthdayNew ;
                 if($addressNew)  $studentAccount->ADDRESS =  $addressNew ;
@@ -242,7 +257,10 @@ class AccountController extends ControllerBase
             $user = $this->session->get('user');
             $id = $user['ID'];
             $groupId = $user['GROUP_ID'];
+        }else {
+            $this->response->redirect('Account');
         }
+        
         if($groupId != 9) {
             $this->response->redirect('Account/unauthorized');
         }
@@ -297,6 +315,31 @@ class AccountController extends ControllerBase
                 echo json_encode('Không có dữ liệu nào tồn tại');
             }
         }
+    }
+
+    public function testGetDataAction () {
+        $mySqlLi = mysqli_connect('127.0.0.1', 'root','', 'student_management');
+
+        $sql = 'SELECT * FROM Account WHERE ID = 14';
+        $data = $mySqlLi->query($sql)->fetch_assoc();
+        // $result = $this->modelsManager->executeQuery($sql);
+        
+        $this->view->setVar('result', $result);
+    }
+
+    public function testPaginatorAction($currentPage = 1) {
+        $totalItems = Account::count();
+        $itemsPerPage = 4;
+        $sql = 'SELECT * FROM Account LIMIT '.($currentPage-1)*$itemsPerPage.','.$itemsPerPage;
+
+        $data = $this->modelsManager->executeQuery($sql)->toArray();
+
+        $urlPattern = '/devtest/Account/testPaginator/(:num)';
+        $currentPage = ((!empty($currentPage)) ? $currentPage : 1);
+        $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, $urlPattern);
+        $paginator->setMaxPagesToShow(6);
+        $this->view->setVars(['data' => $data, 'paginator' => $paginator, 'itemsPerPage' => $itemsPerPage, 'currentPage' => $currentPage]);
+
     }
 }
 

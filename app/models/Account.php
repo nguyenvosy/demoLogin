@@ -1,8 +1,10 @@
 <?php
 
 
+use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Model\Query;
-
+use Phalcon\Mvc\View;
+use Phalcon\Di;
 class Account extends \Phalcon\Mvc\Model
 {
 
@@ -105,6 +107,11 @@ class Account extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+    
+    public  static function getData () {
+
+        
     }
 
 }

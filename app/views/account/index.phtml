@@ -122,6 +122,7 @@ function checkInfor () {
         type : "post",
         data :  $('form').serializeArray(),
       success: function(r){
+        console.log(r['result']);
       if(r['result'] == "ok") {
         $("#formLogin").submit();
       } else {

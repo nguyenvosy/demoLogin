@@ -23,7 +23,7 @@ try {
      * Read services
      */
     include APP_PATH . '/config/services.php';
-
+    require '../vendor/autoload.php';
     /**
      * Get config service for use in inline setup below
      */

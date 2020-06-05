@@ -1,6 +1,7 @@
 <html>
 <head>
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
 <style>
 .inforUser {
     color: blue !important;
@@ -48,6 +49,13 @@
     display:none;
 }
 
+.width-50 {
+    width: 50px;
+}
+.width-150 {
+    width: 150px;
+}
+
 </style>
 </head>
 <br>
@@ -65,45 +73,46 @@
     <div style = "text-align:left;font-weight:bold;color: blue;font-size:150%;"> Danh Sách Người Dùng :</div>
 <?php } ?>
 <form action="<?= $this->url->get('Account/getInfo') ?>" method = "post">
-    <table >
-        <label >
-            <td ></td>
+    <table class = "table">
+        <tr class="success">
             <td></td>
-            <td class = "label" style = "width: 50px !important;">ID</td>
-            <td  class = "label" style = "width: 50px !important;">Họ và Tên : </td>
-            <td class = "label" style = "width: 50px !important;">Ngày Sinh : </td>
-            <td class = "label" style = "width: 50px !important;">Địa Chỉ :  </td>
-            <td class = "label" style = "width: 50px !important;">Số Điện Thoại : </td>
-            <td class = "label" style = "width: 50px !important;">Trường Học :</td>
-            <td class = "label" style = "width: 50px !important;">Sở Thích :</td>
-            <td class = "label" style = "width: 50px !important;">Email :</td>
-        </label >
+            <td></td>
+            <?php if($studentAccount->GROUP_ID == 9) { ?><td class = "width-50"  >STT</td> <?php } ?>
+            <td class = "width-50" >ID</td>
+            <td  class = "width-150" >Họ và Tên : </td>
+            <td class = "width-150" >Ngày Sinh : </td>
+            <td class = "width-150" >Địa Chỉ :  </td>
+            <td class = "width-150" >Số Điện Thoại : </td>
+            <td class = "width-150" >Trường Học :</td>
+            <td class = "width-150" >Sở Thích :</td>
+            <td class = "width-150" >Email :</td>
+        </tr >
         
         <?php if($studentAccount->GROUP_ID == 1) { ?>
-            <tr  >
+            <tr  class="success">
                 <td ><button type="button" value = "Sửa" name = "edit[]" id = "<?= $studentAccount->ID ?>"  class = "buttonEdits" onclick = "editUser(this.id);">Sửa</button></td>
-                <!-- <td ><button type="button" value = "Xóa" name = "delete[]" id = "<?= $studentAccount->ID ?>"  class = "buttonDelete" onclick = "deleteUser(this.id);">Xóa</button></td> -->
                 <td ><input  type="text" value = "<?= $studentAccount->ID ?>" name = "id" id = "<?= 'id'.$studentAccount->ID ?>" readOnly style = "color: blue !important;font-weight:bold !important;background-color: #d1c8ba;width: 50px !important;"></input></td>
-                <td ><input  style = "width: 170px !important;" type="text" value = "<?= $studentAccount->NAME ?>" name = "name" id = "<?= 'name'.$studentAccount->ID ?>" readOnly class = "inforUser"></input></td>
-                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->BIRTHDAY ?>" name = "birthday" id = "<?= 'birthday'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
-                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->ADDRESS ?>" name = "address" id = "<?= 'address'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
-                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->PHONE ?>" name = "phone" id = "<?= 'phone'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
-                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->SCHOOL ?>" name = "school" id = "<?= 'school'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
-                <td ><input style = "width: 170px !important;" type="text" value = "<?= $studentAccount->HOBBY ?>" name = "hobby" id = "<?= 'hobby'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input   type="text" value = "<?= $studentAccount->NAME ?>" name = "name" id = "<?= 'name'.$studentAccount->ID ?>" readOnly class = "inforUser"></input></td>
+                <td ><input  type="text" value = "<?= $studentAccount->BIRTHDAY ?>" name = "birthday" id = "<?= 'birthday'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input  type="text" value = "<?= $studentAccount->ADDRESS ?>" name = "address" id = "<?= 'address'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input  type="text" value = "<?= $studentAccount->PHONE ?>" name = "phone" id = "<?= 'phone'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input  type="text" value = "<?= $studentAccount->SCHOOL ?>" name = "school" id = "<?= 'school'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
+                <td ><input  type="text" value = "<?= $studentAccount->HOBBY ?>" name = "hobby" id = "<?= 'hobby'.$studentAccount->ID ?>" readOnly class = "inforUser">  </input></td>
                 <td ><input style = "width: 200px !important;" type="text" value = "<?= $studentAccount->GMAIL?> " name = "gmail" id = "<?= 'gmail'.$studentAccount->ID ?>" readOnly class = "inforUser"> </input></td>
             </tr>
         <?php } else if ($studentAccount->GROUP_ID == 9) { ?>
-            <?php foreach ($listStudent as $l) { ?>
-                <tr  >
+            <?php foreach ($listStudent as $k => $l) { ?>
+                <tr  class="success">
                     <td ><button type="button" value = "Sửa" name = "edit[]" id = "<?= $l->ID ?>"  class = "buttonEdits" onclick = "editUser(this.id);">Sửa</button></td>
                     <td ><button type="button" value = "Xóa" name = "delete[]" id = "<?= $l->ID ?>"  class = "buttonDelete" onclick = "deleteUser(this.id);">Xóa</button></td>
+                    <td><?= $k +1 + $limit*($page - 1)?></td>
                     <td ><input type="text" value = "<?= $l->ID ?>" name = "id[]" id = "<?= 'id'.$l->ID ?>" readOnly style = "color: blue !important;font-weight:bold !important;background-color: #d1c8ba;width: 50px !important;"></input></td>
-                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->NAME ?>" name = "name[]" id = "<?= 'name'.$l->ID ?>" readOnly class = "inforUser"></input></td>
-                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->BIRTHDAY ?>" name = "birthday[]" id = "<?= 'birthday'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
-                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->ADDRESS ?>" name = "address[]" id = "<?= 'address'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
-                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->PHONE ?>" name = "phone[]" id = "<?= 'phone'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
-                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->SCHOOL ?>" name = "school[]" id = "<?= 'school'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
-                    <td ><input style = "width: 170px !important;" type="text" value = "<?= $l->HOBBY ?>" name = "hobby[]" id = "<?= 'hobby'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input  type="text" value = "<?= $l->NAME ?>" name = "name[]" id = "<?= 'name'.$l->ID ?>" readOnly class = "inforUser"></input></td>
+                    <td ><input  type="text" value = "<?= $l->BIRTHDAY ?>" name = "birthday[]" id = "<?= 'birthday'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input  type="text" value = "<?= $l->ADDRESS ?>" name = "address[]" id = "<?= 'address'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input  type="text" value = "<?= $l->PHONE ?>" name = "phone[]" id = "<?= 'phone'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input  type="text" value = "<?= $l->SCHOOL ?>" name = "school[]" id = "<?= 'school'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
+                    <td ><input  type="text" value = "<?= $l->HOBBY ?>" name = "hobby[]" id = "<?= 'hobby'.$l->ID ?>" readOnly class = "inforUser">  </input></td>
                     <td ><input style = "width: 200px !important;" type="text" value = "<?= $l->GMAIL?> " name = "gmail[]" id = "<?= 'gmail'.$l->ID ?>" readOnly class = "inforUser"> </input></td>
                 </tr>
             <?php } ?>
@@ -115,7 +124,7 @@
     <button class = "buttonEdit" onclick = "changeInfo();" type = "button"> Chỉnh Sửa Hồ Sơ </button>
     <button  class = "buttonSave" type = "button" id = "changeInfor"  > Lưu </button>
 </form>
-
+<?= $paginator ?>
 
 <script>
 function changeInfo (id) {
